@@ -1,0 +1,132 @@
+############################################################################
+# Bingo Config File                                                        #
+# Disclaimer: If you do not know what you're doing, don't change anything! #
+# Originally created by PluginRequest.com (without further support)        #
+# Completely rewritten & developed by St3fan[NL] (www.st3fannl.nl)         #
+############################################################################
+welcomemessage:
+  - "&6--------------------------------------"
+  - "       &3Welcome to the Bingo Game"
+  - "&6--------------------------------------"
+
+bingo_log: true
+#enables or disables the logging of bingo actions in a separate log file.
+
+clear_inventory_on_join: false
+#enables or disables clearing inventory on joining and ending a game
+
+start_over_on_death: false
+#enables or disables that a player has to start all over once he/she died.
+
+teleport_to_spawn_on_finish: true
+#enables or disables that a player gets teleported to the spawn on finish and joining.
+
+see_others_card: false
+#enables or disables players from using the /bingo see command which allows them to see other players bingo cards progress.
+
+announce_see_others_card: false
+#enables or disables a broadcast message that someone looked at another players card.
+
+announce_new_item: true
+#enables or disables a broadcast message that someone cleared an item on their bingo card.
+
+itemlore: "&3Obtain this item to clear it from the board"
+bingolore: "&3Use this card to check your Bingo status!"
+starlore: "&6You have cleared this space!"
+#Lore texts for the item's to clear, bingo card or the cleared items.
+
+entry-fee-enabled: false
+#enables or disables an entry fee to be paid upon joining.
+
+entry-fee: "DIAMOND"
+#Item that has to be paid upon joining if fee is enabled. Needs to be capitalized.
+
+entry-fee-quantity: 1
+#Amount of the item fee that has to be paid.
+
+reward-enabled: false
+#enables or disables a reward upon winning a game.
+
+reward: "DIAMOND_BLOCK"
+#Item that will be given as reward upon winning if a reward is enabled. Needs to be capitalized.
+
+lobby-location-x: 359
+lobby-location-y: 66
+lobby-location-z: 186
+
+lobby-location-x-1: 99
+#x coordinate for spawn location
+lobby-location-y-1: 70
+#y coordinate for spawn location
+lobby-location-z-1: 245
+
+lobby-location-x-2: -4707
+#x coordinate for spawn location
+lobby-location-y-2: 69
+#y coordinate for spawn location
+lobby-location-z-2: -5068
+
+lobby-location-x-3: -254
+#x coordinate for spawn location
+lobby-location-y-3: 65
+#y coordinate for spawn location
+lobby-location-z-3: 2178
+
+lobby-location-x-4: 9021
+#x coordinate for spawn location
+lobby-location-y-4: 70
+#y coordinate for spawn location
+lobby-location-z-4: 6926
+
+teleport-distance-x: 20
+#how far the players are teleported from lobby location (x-value)
+teleport-distance-z: 20
+#how far the players are teleported from lobby location (z-value)
+reward-quantity: 2
+#Amount of the item reward that will be given to the winner.
+
+whitelist-worlds: false
+#enables or disables a list with whitelisted worlds to play in.
+whitelisted-worlds:
+  - world
+
+#Whitelisted worlds list, must start with a -
+
+lobby-system:
+  enabled: true
+  minimum_players: 1
+  time_to_start: 10
+#Lobby system:
+# enabled: true enables it
+# minimum_players: mimimum required players before the countdown starts
+# time_to_start: in seconds, the amount of seconds it takes before the game starts.
+
+teams:
+  enabled: false
+  solo-item: "OXEYE_DAISY"
+  solo-name: "&fSolo"
+  team-items:
+    - "BLUE_DYE"
+    - "RED_DYE"
+    - "YELLOW_DYE"
+    - "GREEN_DYE"
+    - "PURPLE_DYE"
+  team-names:
+    - "&1Blue"
+    - "&4Red"
+    - "&eYellow"
+    - "&2Green"
+    - "&5Purple"
+  teamlore: "&3Use this chest to choose a team!"
+#Team system: MAXIMUM 5 TEAMS!!!
+# enabled: true enables it
+# solo-item: The item to display as menu option for a solo game.
+# solo-name: The name of the solo "group" (if solo has a translation in your language for examle)
+# team-items: Items for the players to click on.
+# team-names: Names for the teams. "Team" will get added by the script behind the name!
+
+######################################################################
+# Config Version                                                     #
+# Do not change if you do not want this whole config to be resetted  #
+######################################################################
+version: 1.4

@@ -175,7 +175,6 @@ public class Bingo extends JavaPlugin implements Listener {
 
     private void loadPlayerNames(){
         try {
-            File players = new File("plugins/Bingo/players.txt");
             Scanner scan = new Scanner(players);
             while (scan.hasNextLine()){
                 String data = scan.nextLine();
@@ -186,10 +185,6 @@ public class Bingo extends JavaPlugin implements Listener {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-    }
-
-    public ArrayList<String> getPlayerNames(){
-        return registeredPlayerNames;
     }
 
     public void onEnable() {

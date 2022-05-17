@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -8,8 +9,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -26,6 +30,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -124,11 +129,18 @@ public class Bingo extends JavaPlugin implements Listener {
     public static List<String> teamnames;
 
     public static int scheduler;
+
     public static int gameNum = 1;
 
     public static boolean firstPlace = false;
     public static boolean secondPlace = false;
     public static boolean thirdPlace = false;
+
+    public static ArrayList<String> registeredPlayerNames = new ArrayList<String>();
+
+    public static ArrayList<Player> registeredPlayers = new ArrayList<Player>();
+
+    public static ArrayList<Player> playersFinished;
 
     static {
         bingoItemstack = new ArrayList<>();
@@ -166,6 +178,25 @@ public class Bingo extends JavaPlugin implements Listener {
         console.sendMessage(message.replaceAll("&([0-9a-fk-or])", "hi"));
     }
 
+    private void loadPlayerNames(){
+        try {
+            File players = new File("plugins/Bingo/players.txt");
+            Scanner scan = new Scanner(players);
+            while (scan.hasNextLine()){
+                String data = scan.nextLine();
+                registeredPlayerNames.add(data);
+                System.out.println( String.format("Added %s to the registered player list.", data) );
+            }
+            scan.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<String> getPlayerNames(){
+        return registeredPlayerNames;
+    }
+
     public void onEnable() {
         plugin = this;
         CustomFiles.createItemsConfig1();
@@ -175,6 +206,7 @@ public class Bingo extends JavaPlugin implements Listener {
         CustomFiles.createMessagesConfig();
         CustomFiles.createScoreConfig();
         CustomFiles.createManualConfig();
+        loadPlayerNames();
         File file = new File(getDataFolder() + File.separator + "config.yml");
         if (!file.exists())
             saveDefaultConfig();
@@ -375,10 +407,19 @@ public class Bingo extends JavaPlugin implements Listener {
         return String.valueOf(prefix) + CustomFiles.unknown_command;
     }
 
+    public void addPlayersToGame(){
+        for ( Player p : registeredPlayers ){
+            p.performCommand("bingo join");
+        }
+    }
+
     public void startGame( Player ply, int gameNum ) {
         firstPlace = false;
         secondPlace = false;
         thirdPlace = false;
+
+        addPlayersToGame();
+
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME");
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME @a");
         if (gameNum != 4){
@@ -776,5 +817,18 @@ public class Bingo extends JavaPlugin implements Listener {
     public void onHungerDeplete(FoodLevelChangeEvent event) {
         event.setCancelled(true);
         event.setFoodLevel(20);
+    }
+
+    @EventHandler
+    public void onPlayerJoinServer(PlayerJoinEvent event) {
+        Player p = event.getPlayer();
+        p.setGameMode(GameMode.SURVIVAL);
+
+        String pName = p.getName();
+        if (registeredPlayerNames.contains(pName)){
+            registeredPlayers.add(p);
+            System.out.println("Added " + pName + " to registered Players array.");
+            log("Added " + pName + " to registered Players array.");
+        }
     }
 }

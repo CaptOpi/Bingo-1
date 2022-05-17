@@ -49,11 +49,9 @@ reward-enabled: false
 
 reward: "DIAMOND_BLOCK"
 #Item that will be given as reward upon winning if a reward is enabled. Needs to be capitalized.
-
 lobby-location-x: 359
 lobby-location-y: 66
 lobby-location-z: 186
-
 lobby-location-x-1: 99
 #x coordinate for spawn location
 lobby-location-y-1: 70
@@ -72,16 +70,17 @@ lobby-location-y-3: 65
 #y coordinate for spawn location
 lobby-location-z-3: 2178
 
-lobby-location-x-4: 9021
+lobby-location-x-4: 9044
 #x coordinate for spawn location
-lobby-location-y-4: 70
+lobby-location-y-4: 64
 #y coordinate for spawn location
-lobby-location-z-4: 6926
+lobby-location-z-4: 3926
 
 teleport-distance-x: 20
 #how far the players are teleported from lobby location (x-value)
 teleport-distance-z: 20
 #how far the players are teleported from lobby location (z-value)
+
 reward-quantity: 2
 #Amount of the item reward that will be given to the winner.
 

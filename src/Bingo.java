@@ -191,14 +191,7 @@ public class Bingo extends JavaPlugin implements Listener {
                     registeredPlayerNames.add(data);
                 }
                 System.out.println( String.format("Added %s to the registered player list.", data) );
-                Player p = Bukkit.getServer().getPlayerExact(data);
-                if (p != null && !registeredPlayerNames.contains(data)){
-                    registeredPlayersOnline.add(p);
-                    System.out.println( String.format("Added %s to the online registered player list.", data) );
-                }else {
-                    registeredPlayersOnline.remove(p);
-                    System.out.println( String.format("Removed %s from the online registered player list.", data) );
-                }
+
             }
             System.out.println(" ");
             scan.close();
@@ -418,8 +411,32 @@ public class Bingo extends JavaPlugin implements Listener {
         return String.valueOf(prefix) + CustomFiles.unknown_command;
     }
 
+    public void updateOnlineRegisteredPlayers(){
+
+        try {
+            File players = new File("./plugins/Bingo/players.txt");
+            Scanner scan = new Scanner(players);
+            System.out.println(" ");
+            while (scan.hasNextLine()){
+                String data = scan.nextLine();
+                Player p = Bukkit.getServer().getPlayerExact(data);
+                if (p != null && !registeredPlayerNames.contains(data)){
+                    registeredPlayersOnline.add(p);
+                    System.out.println( String.format("Added %s to the online registered player list.", data) );
+                }else {
+                    registeredPlayersOnline.remove(p);
+                    System.out.println( String.format("Removed %s from the online registered player list.", data) );
+                }
+            }
+            System.out.println(" ");
+            scan.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addPlayersToGame(){
-        for ( Player p : registeredPlayers ){
+        for ( Player p : registeredPlayersOnline ){
             p.performCommand("bingo join");
         }
     }
@@ -428,7 +445,8 @@ public class Bingo extends JavaPlugin implements Listener {
         firstPlace = false;
         secondPlace = false;
         thirdPlace = false;
-
+        
+        updateOnlineRegisteredPlayers();
         addPlayersToGame();
 
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME");

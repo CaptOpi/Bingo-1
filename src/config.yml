@@ -18,7 +18,7 @@ clear_inventory_on_join: false
 start_over_on_death: false
 #enables or disables that a player has to start all over once he/she died.
 
-teleport_to_spawn_on_finish: true
+teleport_to_spawn_on_finish: false
 #enables or disables that a player gets teleported to the spawn on finish and joining.
 
 see_others_card: false
@@ -50,37 +50,15 @@ reward-enabled: false
 reward: "DIAMOND_BLOCK"
 #Item that will be given as reward upon winning if a reward is enabled. Needs to be capitalized.
 
-lobby-location-x: 359
-lobby-location-y: 66
-lobby-location-z: 186
-
-lobby-location-x-1: 99
+lobby-location-x: 80
 #x coordinate for spawn location
-lobby-location-y-1: 70
+lobby-location-y: 70
 #y coordinate for spawn location
-lobby-location-z-1: 245
-
-lobby-location-x-2: -4707
-#x coordinate for spawn location
-lobby-location-y-2: 69
-#y coordinate for spawn location
-lobby-location-z-2: -5068
-
-lobby-location-x-3: -254
-#x coordinate for spawn location
-lobby-location-y-3: 65
-#y coordinate for spawn location
-lobby-location-z-3: 2178
-
-lobby-location-x-4: 9021
-#x coordinate for spawn location
-lobby-location-y-4: 70
-#y coordinate for spawn location
-lobby-location-z-4: 6926
-
-teleport-distance-x: 20
+lobby-location-z: 245
+#z coordinate for spawn location
+teleport-distance-x: 10
 #how far the players are teleported from lobby location (x-value)
-teleport-distance-z: 20
+teleport-distance-z: 10
 #how far the players are teleported from lobby location (z-value)
 reward-quantity: 2
 #Amount of the item reward that will be given to the winner.

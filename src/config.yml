@@ -47,6 +47,10 @@ entry-fee-quantity: 1
 reward-enabled: false
 #enables or disables a reward upon winning a game.
 
+parkour-lobby-x: 2508
+parkour-lobby-y: 69
+parkour-lobby-z: 321
+
 reward: "DIAMOND_BLOCK"
 #Item that will be given as reward upon winning if a reward is enabled. Needs to be capitalized.
 lobby-location-x: 359

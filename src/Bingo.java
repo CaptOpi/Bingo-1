@@ -25,6 +25,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
@@ -124,6 +125,10 @@ public class Bingo extends JavaPlugin implements Listener {
 
     public static int scheduler;
     public static int gameNum = 1;
+
+    public static boolean firstPlace = false;
+    public static boolean secondPlace = false;
+    public static boolean thirdPlace = false;
 
     static {
         bingoItemstack = new ArrayList<>();
@@ -371,8 +376,9 @@ public class Bingo extends JavaPlugin implements Listener {
     }
 
     public void startGame( Player ply, int gameNum ) {
-
-
+        firstPlace = false;
+        secondPlace = false;
+        thirdPlace = false;
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME");
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME @a");
         if (gameNum != 4){
@@ -383,7 +389,6 @@ public class Bingo extends JavaPlugin implements Listener {
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect clear @a minecraft:conduit_power");
 
         }
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "clear @a");
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         this.allPlayers.clear();
         bingoItemstack.clear();
@@ -391,10 +396,7 @@ public class Bingo extends JavaPlugin implements Listener {
         teamItems.clear();
         teamItemStacks.clear();
         spawnWorld = ply.getWorld();
-
-
         CustomFiles.saveToLog(CustomFiles.has_started_game.replace("{player}", ply.getName()));
-
         List<String> configintlist;
         if (gameNum == 1){
             configintlist = CustomFiles.getItemsConfig1().getStringList("items");
@@ -416,10 +418,6 @@ public class Bingo extends JavaPlugin implements Listener {
         spawn.setWorld(spawnWorld);
         System.out.println("Game number " + gameNum);
         System.out.println("configintlist size " + configintlist.size());
-
-
-
-
         if (configintlist.size() >= 9) {
             ShuffleList.shuffleList(configintlist);
             Iterator<String> it = configintlist.iterator();
@@ -528,8 +526,11 @@ public class Bingo extends JavaPlugin implements Listener {
         is.setItemMeta(im);
         starItem = is;
     }
+    public void onPlayerFinish(BingoPlayer p) {
 
+    }
     public void onPlayerJoin(Player p) {
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "clear @a");
         if (this.entryFeeItem != null && this.entryFeeItemQuantity > 0) {
             if (p.getInventory().contains(this.entryFeeItem)) {
                 int slotID = p.getInventory().first(this.entryFeeItem);
@@ -751,12 +752,11 @@ public class Bingo extends JavaPlugin implements Listener {
             }
         }
     }
-
-    // public void onPlayerMove(PlayerMoveEvent event) {
-    //     if (this.allPlayers.containsKey(event.getPlayer().getName()) &&
-    //             (getBingoPlayer(event.getPlayer())).inLobby && !gameStarted)
-    //         event.setCancelled(true);
-    // }
+    public void onPlayerMove(PlayerMoveEvent event) {
+        if (this.allPlayers.containsKey(event.getPlayer().getName()) &&
+                 (getBingoPlayer(event.getPlayer())).inLobby && !gameStarted)
+             event.setCancelled(true);
+     }
 
     @EventHandler
     public void onPlayerTakeDamage(EntityDamageEvent event) {

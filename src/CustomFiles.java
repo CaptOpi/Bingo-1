@@ -45,11 +45,11 @@ public class CustomFiles {
     public static FileConfiguration getItemsConfig2() {
         return itemsConfig2;
     }
-    
+
     public static FileConfiguration getItemsConfig3() {
         return itemsConfig3;
     }
-    
+
     public static FileConfiguration getItemsConfig4() {
         return itemsConfig4;
     }
@@ -121,9 +121,9 @@ public class CustomFiles {
 
     public static void createScoreConfig() {
         scoreFile = new File(Bingo.plugin.getDataFolder(), "score.yml");
-            if (!scoreFile.exists()) {
-                scoreFile.getParentFile().mkdirs();
-                Bingo.plugin.saveResource("score.yml",false);
+        if (!scoreFile.exists()) {
+            scoreFile.getParentFile().mkdirs();
+            Bingo.plugin.saveResource("score.yml",false);
         }
         scoreConfig = (FileConfiguration) new YamlConfiguration();
         try {

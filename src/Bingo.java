@@ -35,7 +35,7 @@ import org.bukkit.scoreboard.*;
 
 
 public class Bingo extends JavaPlugin implements Listener {
-    public static int count = 1200;
+    public static int count = 1501;
     private Server server;
     private Scoreboard board;
     public static ArrayList<ItemStack> bingoItems;
@@ -122,7 +122,7 @@ public class Bingo extends JavaPlugin implements Listener {
 
     public static List<String> teamnames;
 
-    
+    public static int scheduler;
     public static int gameNum = 1;
 
     static {
@@ -163,7 +163,6 @@ public class Bingo extends JavaPlugin implements Listener {
 
     public void onEnable() {
         plugin = this;
-        
         CustomFiles.createItemsConfig1();
         CustomFiles.createItemsConfig2();
         CustomFiles.createItemsConfig3();
@@ -210,7 +209,7 @@ public class Bingo extends JavaPlugin implements Listener {
                 PluginNeedsToDisable = true;
             }
         }
-  
+
         List<String> configTeams = getConfig().getStringList("teams.team-items");
         if (configTeams.size() != teamnames.size()) {
             log("The amount of team items compared to the amount of team names do not match up!");
@@ -372,7 +371,7 @@ public class Bingo extends JavaPlugin implements Listener {
     }
 
     public void startGame( Player ply, int gameNum ) {
-        
+
 
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME");
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME @a");
@@ -395,32 +394,32 @@ public class Bingo extends JavaPlugin implements Listener {
 
 
         CustomFiles.saveToLog(CustomFiles.has_started_game.replace("{player}", ply.getName()));
-        
+
         List<String> configintlist;
         if (gameNum == 1){
             configintlist = CustomFiles.getItemsConfig1().getStringList("items");
             spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-1", gameNum )),getConfig().getDouble(String.format("lobby-location-y-1", gameNum )),getConfig().getDouble(String.format("lobby-location-z-1", gameNum )));
-        
+
         }else if (gameNum == 2){
             configintlist = CustomFiles.getItemsConfig2().getStringList("items");
             spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-2", gameNum )),getConfig().getDouble(String.format("lobby-location-y-2", gameNum )),getConfig().getDouble(String.format("lobby-location-z-2", gameNum )));
-        
+
         }else if (gameNum == 3){
             configintlist = CustomFiles.getItemsConfig3().getStringList("items");
             spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-3", gameNum )),getConfig().getDouble(String.format("lobby-location-y-3", gameNum )),getConfig().getDouble(String.format("lobby-location-z-3", gameNum )));
-        
+
         }else {
             configintlist = CustomFiles.getItemsConfig4().getStringList("items");
             spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-4", gameNum )),getConfig().getDouble(String.format("lobby-location-y-4", gameNum )),getConfig().getDouble(String.format("lobby-location-z-4", gameNum )));
-        
+
         }
         spawn.setWorld(spawnWorld);
         System.out.println("Game number " + gameNum);
         System.out.println("configintlist size " + configintlist.size());
 
-       
-        
-        
+
+
+
         if (configintlist.size() >= 9) {
             ShuffleList.shuffleList(configintlist);
             Iterator<String> it = configintlist.iterator();
@@ -591,12 +590,6 @@ public class Bingo extends JavaPlugin implements Listener {
         for (Map.Entry<String, BingoPlayer> entry : this.allPlayers.entrySet()) {
             ((BingoPlayer)entry.getValue()).restoreItem();
             Player ply = ((BingoPlayer)entry.getValue()).getPlayer();
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    LobbySystem.scoreboardUpdate();
-                }
-            }.runTaskLater(plugin, 60);
             if (clearInv)
                 ply.getInventory().clear();
             ply.teleport(spawn);
@@ -604,8 +597,15 @@ public class Bingo extends JavaPlugin implements Listener {
         gameIsSetup = false;
         gameStarted = false;
         LobbySystem.seconds = false;
-        count = 15;
         HandlerList.unregisterAll((Plugin)this);
+        plugin.getServer().getScheduler().cancelTask(scheduler);
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+            @Override
+            public void run() {
+                LobbySystem.scoreboardUpdate();
+            }
+        },60L);
+        count = 1501;
     }
 
     public boolean CheckWhiteListedWorld(Player p) {
@@ -640,38 +640,75 @@ public class Bingo extends JavaPlugin implements Listener {
     }
 
     public void countDown() {
-        BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+        scheduler = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
                 count--;
-                LobbySystem.manualScoreboard();
-                switch (count) {
+                switch (count) { // Yes I know this can be done in a different way, I just want it to be finished
+                    case 1500:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "You Have 25 Minutes To Finish Your Board!");
+                        break;
                     case 900:
-                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 15 Minutes Remaining");
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 15 Minutes Remaining!");
                         break;
                     case 600:
-                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 10 Minutes Remaining");
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 10 Minutes Remaining!");
                         break;
                     case 300:
-                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 5 Minutes Remaining");
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 5 Minutes Remaining!");
                         break;
                     case 120:
-                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 2 Minutes Remaining");
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 2 Minutes Remaining!");
                         break;
                     case 60:
                         LobbySystem.seconds = true;
-                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 60 Seconds Remaining");
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 1 Minute Remaining!");
+                        break;
+                    case 30:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 30 Seconds Remaining!");
+                        break;
+                    case 15:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 15 Seconds Remaining!");
+                        break;
+                    case 10:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "There is 10 Seconds Remaining!");
+                        break;
+                    case 9:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "9!");
+                        break;
+                    case 8:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "8!");
+                        break;
+                    case 7:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "7!");
+                        break;
+                    case 6:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "6!");
+                        break;
+                    case 5:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "5!");
+                        break;
+                    case 4:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "4!");
+                        break;
+                    case 3:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "3!");
+                        break;
+                    case 2:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "2!");
+                        break;
+                    case 1:
+                        Bingo.plugin.broadcast(ChatColor.AQUA + "1!");
                         break;
                     case 0:
-                        onGameFinish();
                         plugin.getServer().getScheduler().cancelTasks(plugin);
+                        onGameFinish();
                         break;
                 }
             }
         },0L, 20L);
     }
-        
+
 
     public String CommandJoin(Player p) {
 

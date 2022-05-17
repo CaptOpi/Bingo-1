@@ -1,4 +1,3 @@
-
 import java.util.Calendar;
 import org.bukkit.event.Listener;
 

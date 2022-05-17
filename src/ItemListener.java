@@ -1,5 +1,3 @@
-
-
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,4 +19,4 @@ public class ItemListener implements Listener {
             }
         }
     }
-}
+} 

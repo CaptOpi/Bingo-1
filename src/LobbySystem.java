@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -51,7 +50,7 @@ public class LobbySystem {
         Bingo.plugin.log(String.valueOf(Counter));
     }
 
-    
+
 
     public static void AnnounceReminder() {
         Bingo.plugin.serverBroadcast(CustomFiles.almost_starting.replace("{time}", String.valueOf(CountDownTime)));
@@ -65,10 +64,10 @@ public class LobbySystem {
         HashMap<String, Integer> h = LobbySystem.manualPush(BingoPlayer.getPlayers());
         HashMap<String, Integer> sorted = LobbySystem.sortByValue(h);
         Object[] keys = LobbySystem.getKey(sorted);
-        
+
         Score score = objective.getScore(ChatColor.GOLD + keys[keys.length - 1].toString());
         score.setScore(h.get(keys[keys.length - 1].toString()));
-        Score score1 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 2].toString());
+        /*Score score1 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 2].toString());
         score1.setScore(h.get(keys[keys.length - 2].toString()));
         Score score2 = objective.getScore(ChatColor.GOLD + keys[keys.length - 3].toString());
         score2.setScore(h.get(keys[keys.length - 3].toString()));
@@ -81,7 +80,7 @@ public class LobbySystem {
         Score score6 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 7].toString());
         score6.setScore(h.get(keys[keys.length - 7].toString()));
         Score score7 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 8].toString());
-        score7.setScore(h.get(keys[keys.length - 8].toString()));
+        score7.setScore(h.get(keys[keys.length - 8].toString()));*/
         for (Map.Entry<String, BingoPlayer> entry : Bingo.allPlayers.entrySet()) {
             Player ply = ((BingoPlayer) entry.getValue()).getPlayer();
             ply.setScoreboard(board);
@@ -98,7 +97,7 @@ public class LobbySystem {
         Object[] keys = LobbySystem.getKey(sorted);
         Score score = objective.getScore(ChatColor.GOLD + keys[keys.length - 1].toString());
         score.setScore(h.get(keys[keys.length - 1].toString()));
-        Score score1 = objective.getScore(ChatColor.GOLD + keys[keys.length - 2].toString());
+        /*Score score1 = objective.getScore(ChatColor.GOLD + keys[keys.length - 2].toString());
         score1.setScore(h.get(keys[keys.length - 2].toString()));
         Score score2 = objective.getScore(ChatColor.GOLD + keys[keys.length - 3].toString());
         score2.setScore(h.get(keys[keys.length - 3].toString()));
@@ -111,7 +110,7 @@ public class LobbySystem {
         Score score6 = objective.getScore(ChatColor.GOLD + keys[keys.length - 7].toString());
         score6.setScore(h.get(keys[keys.length - 7].toString()));
         Score score7 = objective.getScore(ChatColor.GOLD + keys[keys.length - 8].toString());
-        score7.setScore(h.get(keys[keys.length - 8].toString()));
+        score7.setScore(h.get(keys[keys.length - 8].toString()));*/
         for (Map.Entry<String, BingoPlayer> entry : Bingo.allPlayers.entrySet()) {
             Player ply = ((BingoPlayer)entry.getValue()).getPlayer();
             ply.setScoreboard(board);
@@ -170,16 +169,16 @@ public class LobbySystem {
         Location spawn;
         if (Bingo.gameNum == 1){
             spawn = new Location(Bingo.spawnWorld, Bingo.plugin.getConfig().getDouble(String.format("lobby-location-x-1" )),Bingo.plugin.getConfig().getDouble(String.format("lobby-location-y-1" )),Bingo.plugin.getConfig().getDouble(String.format("lobby-location-z-1" )));
-        
+
         }else if (Bingo.gameNum == 2){
             spawn = new Location(Bingo.spawnWorld, Bingo.plugin.getConfig().getDouble(String.format("lobby-location-x-2" )),Bingo.plugin.getConfig().getDouble(String.format("lobby-location-y-2" )),Bingo.plugin.getConfig().getDouble(String.format("lobby-location-z-2" )));
-        
+
         }else if (Bingo.gameNum == 3){
             spawn = new Location(Bingo.spawnWorld, Bingo.plugin.getConfig().getDouble(String.format("lobby-location-x-3" )),Bingo.plugin.getConfig().getDouble(String.format("lobby-location-y-3" )),Bingo.plugin.getConfig().getDouble(String.format("lobby-location-z-3" )));
-        
+
         }else {
             spawn = new Location(Bingo.spawnWorld, Bingo.plugin.getConfig().getDouble(String.format("lobby-location-x-4" )),Bingo.plugin.getConfig().getDouble(String.format("lobby-location-y-4" )),Bingo.plugin.getConfig().getDouble(String.format("lobby-location-z-4", Bingo.gameNum )));
-        
+
         }
         for (Map.Entry<String, BingoPlayer> entry : Bingo.plugin.allPlayers.entrySet()) {
             Player ply = ((BingoPlayer)entry.getValue()).getPlayer();
@@ -253,4 +252,4 @@ public class LobbySystem {
         }
         Bingo.plugin.countDown();
     }
-}
+} 

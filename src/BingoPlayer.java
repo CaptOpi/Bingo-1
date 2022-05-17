@@ -32,7 +32,7 @@ public class BingoPlayer {
 
     private static ArrayList<String> players = new ArrayList<String>();
 
-    
+
 
     public BingoPlayer(Player p, Bingo plugin) {
         if (Bingo.clearInv) {

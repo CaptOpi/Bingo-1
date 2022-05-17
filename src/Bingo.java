@@ -144,6 +144,10 @@ public class Bingo extends JavaPlugin implements Listener {
 
     public static ArrayList<Player> registeredPlayersOnline = new ArrayList<Player>();
 
+    public static final String TEXT_RESET = "\u001B[0m";
+
+    public static final String TEXT_YELLOW = "\u001B[33m";
+    
     static {
         bingoItemstack = new ArrayList<>();
         gameIsSetup = false;
@@ -420,7 +424,7 @@ public class Bingo extends JavaPlugin implements Listener {
             while (scan.hasNextLine()){
                 String data = scan.nextLine();
                 Player p = Bukkit.getServer().getPlayerExact(data);
-                if (p != null && !registeredPlayerNames.contains(data)){
+                if (p != null || !registeredPlayerNames.contains(data)){
                     registeredPlayersOnline.add(p);
                     System.out.println( String.format("Added %s to the online registered player list.", data) );
                 }else {
@@ -438,6 +442,9 @@ public class Bingo extends JavaPlugin implements Listener {
     public void addPlayersToGame(){
         for ( Player p : registeredPlayersOnline ){
             p.performCommand("bingo join");
+            String message = (p.getName() + " has joined the game." + TEXT_RESET);
+            System.out.println(TEXT_YELLOW + message);
+            serverBroadcast(message);
         }
     }
 
@@ -445,7 +452,7 @@ public class Bingo extends JavaPlugin implements Listener {
         firstPlace = false;
         secondPlace = false;
         thirdPlace = false;
-        
+
         updateOnlineRegisteredPlayers();
         addPlayersToGame();
 

@@ -106,20 +106,9 @@ public class BingoPlayer {
                 }
             }
         if (checkBingo()) {
-            if (Bingo.usingTeams && !this.Team.equalsIgnoreCase(String.valueOf(Bingo.soloname) + " Team")) {
-                this.plugin.broadcast(CustomFiles.bingo_team.replace("{player}", this.name).replace("{team}", this.Team));
-                this.plugin.onGameFinish();
-                for (Map.Entry<String, BingoPlayer> entry : this.plugin.allPlayers.entrySet()) {
-                    BingoPlayer p = entry.getValue();
-                    if (p.Team.equalsIgnoreCase(this.Team) && !this.Team.equalsIgnoreCase(String.valueOf(Bingo.soloname) + " Team"))
-                        this.plugin.handleWinner(p.player);
-                }
-            } else {
-                this.plugin.broadcast(CustomFiles.bingo.replace("{player}", this.name).replace("{player}", this.name));
-                this.plugin.onGameFinish();
-                this.plugin.handleWinner(this.player);
-            }
-            CustomFiles.saveToLog(CustomFiles.has_won.replace("{player}", this.name));
+            this.plugin.getPlayersFinished().add(this.player);
+            this.plugin.broadcast(CustomFiles.bingo.replace("{player}", this.name));
+            this.plugin.handleWinner(this.player);
         }
         int previous = CustomFiles.getScoreConfig().getInt(player.getName());
         CustomFiles.getScoreConfig().set(player.getName(), previous + 1);

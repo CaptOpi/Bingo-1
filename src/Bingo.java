@@ -140,7 +140,7 @@ public class Bingo extends JavaPlugin implements Listener {
 
     public static ArrayList<Player> registeredPlayers = new ArrayList<Player>();
 
-    public static ArrayList<Player> playersFinished;
+    public static ArrayList<Player> playersFinished = new ArrayList<Player>();
 
     static {
         bingoItemstack = new ArrayList<>();
@@ -196,6 +196,10 @@ public class Bingo extends JavaPlugin implements Listener {
     public ArrayList<String> getPlayerNames(){
         return registeredPlayerNames;
     }
+    public ArrayList<Player> getPlayersFinished() {
+        return playersFinished;
+    }
+
 
     public void onEnable() {
         plugin = this;
@@ -417,9 +421,7 @@ public class Bingo extends JavaPlugin implements Listener {
         firstPlace = false;
         secondPlace = false;
         thirdPlace = false;
-
         addPlayersToGame();
-
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME");
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME @a");
         if (gameNum != 4){
@@ -571,7 +573,7 @@ public class Bingo extends JavaPlugin implements Listener {
 
     }
     public void onPlayerJoin(Player p) {
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "clear @a");
+        p.getInventory().clear();
         if (this.entryFeeItem != null && this.entryFeeItemQuantity > 0) {
             if (p.getInventory().contains(this.entryFeeItem)) {
                 int slotID = p.getInventory().first(this.entryFeeItem);
@@ -613,28 +615,35 @@ public class Bingo extends JavaPlugin implements Listener {
         this.allPlayers.remove(p.getName());
         serverBroadcast(CustomFiles.player_left_game.replace("{player}", p.getName()));
     }
-
     public void handleWinner(Player p) {
+        if(BingoPlayer.getPlayers().size() == playersFinished.size()) {
+            onGameFinish();
+            return;
+        }
         if(!firstPlace) {
             p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you were victorious!");
+            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished in first place!");
             int previous = CustomFiles.getScoreConfig().getInt(p.getName());
             CustomFiles.getScoreConfig().set(p.getName(), previous + 5);
             firstPlace = true;
+            return;
         } else if (!secondPlace && firstPlace) {
-            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you came in second place!");
+            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished in second place!");
             int previous = CustomFiles.getScoreConfig().getInt(p.getName());
             CustomFiles.getScoreConfig().set(p.getName(), previous + 3);
             secondPlace = true;
+            return;
         } else if (!thirdPlace && secondPlace) {
-            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you came in third place!");
+            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished in third place!");
             int previous = CustomFiles.getScoreConfig().getInt(p.getName());
             CustomFiles.getScoreConfig().set(p.getName(), previous + 2);
             thirdPlace = true;
+            return;
         } else {
-            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you finished before the time ended!");
+            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished their board!");
+            return;
         }
     }
-
     public void onGameFinish() {
         broadcast(CustomFiles.duration.replace("{time}", Tools.formatDuration(this.startTime, Calendar.getInstance(), true)));
         for (Map.Entry<String, BingoPlayer> entry : this.allPlayers.entrySet()) {

@@ -1,6 +1,6 @@
 api-version: 1.14
 name: Bingo
-main: me.senoropi.bingo.main.Bingo
+main: Bingo
 version: 1.2.4
 author: SenorOpi
 commands:

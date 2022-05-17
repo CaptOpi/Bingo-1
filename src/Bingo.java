@@ -142,6 +142,8 @@ public class Bingo extends JavaPlugin implements Listener {
 
     public static ArrayList<Player> playersFinished = new ArrayList<Player>();
 
+    public static ArrayList<Player> registeredPlayersOnline = new ArrayList<Player>();
+
     static {
         bingoItemstack = new ArrayList<>();
         gameIsSetup = false;
@@ -180,13 +182,18 @@ public class Bingo extends JavaPlugin implements Listener {
 
     private void loadPlayerNames(){
         try {
-            File players = new File("plugins/Bingo/players.txt");
+            File players = new File("./plugins/Bingo/players.txt");
             Scanner scan = new Scanner(players);
+            System.out.println(" ");
             while (scan.hasNextLine()){
                 String data = scan.nextLine();
-                registeredPlayerNames.add(data);
+                if (!registeredPlayerNames.contains(data)){
+                    registeredPlayerNames.add(data);
+                }
                 System.out.println( String.format("Added %s to the registered player list.", data) );
+
             }
+            System.out.println(" ");
             scan.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -211,6 +218,7 @@ public class Bingo extends JavaPlugin implements Listener {
         CustomFiles.createScoreConfig();
         CustomFiles.createManualConfig();
         loadPlayerNames();
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team remove TEAMNAME");
         File file = new File(getDataFolder() + File.separator + "config.yml");
         if (!file.exists())
             saveDefaultConfig();
@@ -411,8 +419,32 @@ public class Bingo extends JavaPlugin implements Listener {
         return String.valueOf(prefix) + CustomFiles.unknown_command;
     }
 
+    public void updateOnlineRegisteredPlayers(){
+
+        try {
+            File players = new File("./plugins/Bingo/players.txt");
+            Scanner scan = new Scanner(players);
+            System.out.println(" ");
+            while (scan.hasNextLine()){
+                String data = scan.nextLine();
+                Player p = Bukkit.getServer().getPlayerExact(data);
+                if (p != null && !registeredPlayerNames.contains(data)){
+                    registeredPlayersOnline.add(p);
+                    System.out.println( String.format("Added %s to the online registered player list.", data) );
+                }else {
+                    registeredPlayersOnline.remove(p);
+                    System.out.println( String.format("Removed %s from the online registered player list.", data) );
+                }
+            }
+            System.out.println(" ");
+            scan.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addPlayersToGame(){
-        for ( Player p : registeredPlayers ){
+        for ( Player p : registeredPlayersOnline ){
             p.performCommand("bingo join");
         }
     }
@@ -421,6 +453,8 @@ public class Bingo extends JavaPlugin implements Listener {
         firstPlace = false;
         secondPlace = false;
         thirdPlace = false;
+
+        updateOnlineRegisteredPlayers();
         addPlayersToGame();
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME");
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME @a");
@@ -432,7 +466,11 @@ public class Bingo extends JavaPlugin implements Listener {
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect clear @a minecraft:conduit_power");
 
         }
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        System.out.println("Working Directory = " + System.getProperty("user.dir\n"));
+        for (String playerName : registeredPlayerNames){
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "clear " + playerName);
+            System.out.println("Cleared inventory of " + playerName);
+        }
         this.allPlayers.clear();
         bingoItemstack.clear();
         bingoItems.clear();
@@ -775,6 +813,7 @@ public class Bingo extends JavaPlugin implements Listener {
         Player ply = p;
         p.setFoodLevel(20);
         p.setSaturation(99999);
+        p.setGameMode(GameMode.SURVIVAL);
         if (ply.getGameMode().name().equalsIgnoreCase("survival")) {
             if (!CheckWhiteListedWorld(p))
                 return String.valueOf(prefix) + CustomFiles.wrong_world;

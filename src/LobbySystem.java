@@ -216,7 +216,11 @@ public class LobbySystem {
                 try {
                     List<String> allLines = Files.readAllLines(Paths.get("plugins/Bingo/game1.txt"));
                     for (String line : allLines) {
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), line);
+                        for (String playerName : Bingo.registeredPlayerNames){
+                            String uniqueCommand = line.replace("@a", playerName);
+                            System.out.println(uniqueCommand);
+                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), uniqueCommand);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -225,7 +229,11 @@ public class LobbySystem {
                 try {
                     List<String> allLines = Files.readAllLines(Paths.get("plugins/Bingo/game2.txt"));
                     for (String line : allLines) {
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), line);
+                        for (String playerName : Bingo.registeredPlayerNames){
+                            String uniqueCommand = line.replace("@a", playerName);
+                            System.out.println(uniqueCommand);
+                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), uniqueCommand);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -234,7 +242,11 @@ public class LobbySystem {
                 try {
                     List<String> allLines = Files.readAllLines(Paths.get("plugins/Bingo/game3.txt"));
                     for (String line : allLines) {
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), line);
+                        for (String playerName : Bingo.registeredPlayerNames){
+                            String uniqueCommand = line.replace("@a", playerName);
+                            System.out.println(uniqueCommand);
+                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), uniqueCommand);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -243,7 +255,11 @@ public class LobbySystem {
                 try {
                     List<String> allLines = Files.readAllLines(Paths.get("plugins/Bingo/game4.txt"));
                     for (String line : allLines) {
-                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), line);
+                        for (String playerName : Bingo.registeredPlayerNames){
+                            String uniqueCommand = line.replace("@a", playerName);
+                            System.out.println(uniqueCommand);
+                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), uniqueCommand);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

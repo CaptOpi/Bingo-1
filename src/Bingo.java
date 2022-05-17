@@ -182,11 +182,13 @@ public class Bingo extends JavaPlugin implements Listener {
         try {
             File players = new File("./plugins/Bingo/players.txt");
             Scanner scan = new Scanner(players);
+            System.out.println(" ");
             while (scan.hasNextLine()){
                 String data = scan.nextLine();
                 registeredPlayerNames.add(data);
                 System.out.println( String.format("Added %s to the registered player list.", data) );
             }
+            System.out.println(" ");
             scan.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -427,7 +429,11 @@ public class Bingo extends JavaPlugin implements Listener {
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect clear @a minecraft:conduit_power");
 
         }
-        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        System.out.println("Working Directory = " + System.getProperty("user.dir\n"));
+        for (String playerName : registeredPlayerNames){
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "clear " + playerName);
+            System.out.println("Cleared inventory of " + playerName);
+        }
         this.allPlayers.clear();
         bingoItemstack.clear();
         bingoItems.clear();
@@ -568,7 +574,6 @@ public class Bingo extends JavaPlugin implements Listener {
 
     }
     public void onPlayerJoin(Player p) {
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "clear @a");
         if (this.entryFeeItem != null && this.entryFeeItemQuantity > 0) {
             if (p.getInventory().contains(this.entryFeeItem)) {
                 int slotID = p.getInventory().first(this.entryFeeItem);

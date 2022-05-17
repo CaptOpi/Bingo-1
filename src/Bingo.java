@@ -29,6 +29,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -128,8 +129,12 @@ public class Bingo extends JavaPlugin implements Listener {
     public static List<String> teamnames;
 
     public static int scheduler;
-    
+
     public static int gameNum = 1;
+
+    public static boolean firstPlace = false;
+    public static boolean secondPlace = false;
+    public static boolean thirdPlace = false;
 
     public static ArrayList<String> registeredPlayerNames = new ArrayList<String>();
 
@@ -409,6 +414,9 @@ public class Bingo extends JavaPlugin implements Listener {
     }
 
     public void startGame( Player ply, int gameNum ) {
+        firstPlace = false;
+        secondPlace = false;
+        thirdPlace = false;
 
         addPlayersToGame();
 
@@ -422,7 +430,6 @@ public class Bingo extends JavaPlugin implements Listener {
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "effect clear @a minecraft:conduit_power");
 
         }
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "clear @a");
         System.out.println("Working Directory = " + System.getProperty("user.dir"));
         this.allPlayers.clear();
         bingoItemstack.clear();
@@ -430,10 +437,7 @@ public class Bingo extends JavaPlugin implements Listener {
         teamItems.clear();
         teamItemStacks.clear();
         spawnWorld = ply.getWorld();
-
-
         CustomFiles.saveToLog(CustomFiles.has_started_game.replace("{player}", ply.getName()));
-
         List<String> configintlist;
         if (gameNum == 1){
             configintlist = CustomFiles.getItemsConfig1().getStringList("items");
@@ -455,10 +459,6 @@ public class Bingo extends JavaPlugin implements Listener {
         spawn.setWorld(spawnWorld);
         System.out.println("Game number " + gameNum);
         System.out.println("configintlist size " + configintlist.size());
-
-
-
-
         if (configintlist.size() >= 9) {
             ShuffleList.shuffleList(configintlist);
             Iterator<String> it = configintlist.iterator();
@@ -567,8 +567,11 @@ public class Bingo extends JavaPlugin implements Listener {
         is.setItemMeta(im);
         starItem = is;
     }
+    public void onPlayerFinish(BingoPlayer p) {
 
+    }
     public void onPlayerJoin(Player p) {
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "clear @a");
         if (this.entryFeeItem != null && this.entryFeeItemQuantity > 0) {
             if (p.getInventory().contains(this.entryFeeItem)) {
                 int slotID = p.getInventory().first(this.entryFeeItem);
@@ -612,16 +615,24 @@ public class Bingo extends JavaPlugin implements Listener {
     }
 
     public void handleWinner(Player p) {
-        if (getConfig().getBoolean("reward-enabled"))
-            if (this.winningPrizeItem != null && this.winningPrizeQuantity > 0) {
-                ItemStack item = new ItemStack(this.winningPrizeItem, this.winningPrizeQuantity);
-                p.sendMessage(String.valueOf(prefix) + CustomFiles.you_won.replace("{amount}", String.valueOf(this.winningPrizeQuantity)).replace("{item}", item.getType().name().replaceAll("_", " ").toLowerCase()));
-                p.getInventory().addItem(new ItemStack[] { item });
-            } else {
-                p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you were victorious!");
-                int previous = CustomFiles.getScoreConfig().getInt(p.getName());
-                CustomFiles.getScoreConfig().set(p.getName(), previous + 5);
-            }
+        if(!firstPlace) {
+            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you were victorious!");
+            int previous = CustomFiles.getScoreConfig().getInt(p.getName());
+            CustomFiles.getScoreConfig().set(p.getName(), previous + 5);
+            firstPlace = true;
+        } else if (!secondPlace && firstPlace) {
+            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you came in second place!");
+            int previous = CustomFiles.getScoreConfig().getInt(p.getName());
+            CustomFiles.getScoreConfig().set(p.getName(), previous + 3);
+            secondPlace = true;
+        } else if (!thirdPlace && secondPlace) {
+            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you came in third place!");
+            int previous = CustomFiles.getScoreConfig().getInt(p.getName());
+            CustomFiles.getScoreConfig().set(p.getName(), previous + 2);
+            thirdPlace = true;
+        } else {
+            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you finished before the time ended!");
+        }
     }
 
     public void onGameFinish() {
@@ -677,7 +688,6 @@ public class Bingo extends JavaPlugin implements Listener {
             return true;
         return false;
     }
-
     public void countDown() {
         scheduler = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
@@ -790,12 +800,11 @@ public class Bingo extends JavaPlugin implements Listener {
             }
         }
     }
-
-    // public void onPlayerMove(PlayerMoveEvent event) {
-    //     if (this.allPlayers.containsKey(event.getPlayer().getName()) &&
-    //             (getBingoPlayer(event.getPlayer())).inLobby && !gameStarted)
-    //         event.setCancelled(true);
-    // }
+    public void onPlayerMove(PlayerMoveEvent event) {
+        if (this.allPlayers.containsKey(event.getPlayer().getName()) &&
+                 (getBingoPlayer(event.getPlayer())).inLobby && !gameStarted)
+             event.setCancelled(true);
+     }
 
     @EventHandler
     public void onPlayerTakeDamage(EntityDamageEvent event) {

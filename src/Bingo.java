@@ -175,6 +175,7 @@ public class Bingo extends JavaPlugin implements Listener {
 
     private void loadPlayerNames(){
         try {
+            File players = new File("./plugins/Bingo/players.txt");
             Scanner scan = new Scanner(players);
             while (scan.hasNextLine()){
                 String data = scan.nextLine();
@@ -197,6 +198,7 @@ public class Bingo extends JavaPlugin implements Listener {
         CustomFiles.createScoreConfig();
         CustomFiles.createManualConfig();
         loadPlayerNames();
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team remove TEAMNAME");
         File file = new File(getDataFolder() + File.separator + "config.yml");
         if (!file.exists())
             saveDefaultConfig();

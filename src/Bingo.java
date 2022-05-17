@@ -574,16 +574,24 @@ public class Bingo extends JavaPlugin implements Listener {
     }
 
     public void handleWinner(Player p) {
-        if (getConfig().getBoolean("reward-enabled"))
-            if (this.winningPrizeItem != null && this.winningPrizeQuantity > 0) {
-                ItemStack item = new ItemStack(this.winningPrizeItem, this.winningPrizeQuantity);
-                p.sendMessage(String.valueOf(prefix) + CustomFiles.you_won.replace("{amount}", String.valueOf(this.winningPrizeQuantity)).replace("{item}", item.getType().name().replaceAll("_", " ").toLowerCase()));
-                p.getInventory().addItem(new ItemStack[] { item });
-            } else {
-                p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you were victorious!");
-                int previous = CustomFiles.getScoreConfig().getInt(p.getName());
-                CustomFiles.getScoreConfig().set(p.getName(), previous + 5);
-            }
+        if(!firstPlace) {
+            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you were victorious!");
+            int previous = CustomFiles.getScoreConfig().getInt(p.getName());
+            CustomFiles.getScoreConfig().set(p.getName(), previous + 5);
+            firstPlace = true;
+        } else if (!secondPlace && firstPlace) {
+            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you came in second place!");
+            int previous = CustomFiles.getScoreConfig().getInt(p.getName());
+            CustomFiles.getScoreConfig().set(p.getName(), previous + 3);
+            secondPlace = true;
+        } else if (!thirdPlace && secondPlace) {
+            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you came in third place!");
+            int previous = CustomFiles.getScoreConfig().getInt(p.getName());
+            CustomFiles.getScoreConfig().set(p.getName(), previous + 2);
+            thirdPlace = true;
+        } else {
+            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you finished before the time ended!");
+        }
     }
 
     public void onGameFinish() {
@@ -639,7 +647,6 @@ public class Bingo extends JavaPlugin implements Listener {
             return true;
         return false;
     }
-
     public void countDown() {
         scheduler = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override

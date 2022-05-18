@@ -451,7 +451,6 @@ public class Bingo extends JavaPlugin implements Listener {
         thirdPlace = false;
 
         updateOnlineRegisteredPlayers();
-        addPlayersToGame();
 
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME");
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME @a");
@@ -523,6 +522,7 @@ public class Bingo extends JavaPlugin implements Listener {
                 if (!usingLobby)
                     gameStarted = true;
                 System.out.println(String.format("[Bingo] Scavenger Hunt game #%d has started", gameNum));
+                addPlayersToGame();
             } else {
                 System.out.println("[Bingo] Bingo cannot be enabled because some items are not supported and the adjusted list is less than 9 items!");
                 this.server.getPluginManager().disablePlugin((Plugin)this);

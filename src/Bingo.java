@@ -136,6 +136,7 @@ public class Bingo extends JavaPlugin implements Listener {
     public static boolean secondPlace = false;
     public static boolean thirdPlace = false;
 
+    public static Location parkourLocation;
     public static ArrayList<String> registeredPlayerNames = new ArrayList<String>();
 
     public static ArrayList<Player> registeredPlayers = new ArrayList<Player>();
@@ -424,7 +425,6 @@ public class Bingo extends JavaPlugin implements Listener {
     }
 
     public void updateOnlineRegisteredPlayers(){
-
         try {
             File players = new File("./plugins/Bingo/players.txt");
             Scanner scan = new Scanner(players);
@@ -446,18 +446,15 @@ public class Bingo extends JavaPlugin implements Listener {
             e.printStackTrace();
         }
     }
-
     public void addPlayersToGame(){
         for ( Player p : registeredPlayersOnline ){
             p.performCommand("bingo join");
         }
     }
-
     public void startGame( Player ply, int gameNum ) {
         firstPlace = false;
         secondPlace = false;
         thirdPlace = false;
-
         updateOnlineRegisteredPlayers();
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME");
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME @a");
@@ -480,6 +477,7 @@ public class Bingo extends JavaPlugin implements Listener {
         teamItems.clear();
         teamItemStacks.clear();
         spawnWorld = ply.getWorld();
+        parkourLocation = new Location(spawnWorld,(getConfig().getDouble("parkour-lobby-x")),(getConfig().getDouble("parkour-lobby-y")),(getConfig().getDouble("parkour-lobby-z")));
         CustomFiles.saveToLog(CustomFiles.has_started_game.replace("{player}", ply.getName()));
         List<String> configintlist;
         if (gameNum == 1){
@@ -668,23 +666,21 @@ public class Bingo extends JavaPlugin implements Listener {
             int previous = CustomFiles.getScoreConfig().getInt(p.getName());
             CustomFiles.getScoreConfig().set(p.getName(), previous + 5);
             firstPlace = true;
-            return;
         } else if (!secondPlace && firstPlace) {
             Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished in second place!");
             int previous = CustomFiles.getScoreConfig().getInt(p.getName());
             CustomFiles.getScoreConfig().set(p.getName(), previous + 3);
             secondPlace = true;
-            return;
         } else if (!thirdPlace && secondPlace) {
             Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished in third place!");
             int previous = CustomFiles.getScoreConfig().getInt(p.getName());
             CustomFiles.getScoreConfig().set(p.getName(), previous + 2);
             thirdPlace = true;
-            return;
         } else {
             Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished their board!");
-            return;
         }
+        p.teleport(parkourLocation);
+        p.getInventory().clear();
     }
     public void onGameFinish() {
         broadcast(CustomFiles.duration.replace("{time}", Tools.formatDuration(this.startTime, Calendar.getInstance(), true)));
@@ -808,10 +804,7 @@ public class Bingo extends JavaPlugin implements Listener {
             }
         },0L, 20L);
     }
-
-
     public String CommandJoin(Player p) {
-
         if (!gameIsSetup)
             return String.valueOf(prefix) + CustomFiles.no_game_found;
         Player ply = p;

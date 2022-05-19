@@ -39,6 +39,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scoreboard.*;
 
+import net.minecraft.server.v1_14_R1.ChatModifier;
+
 
 public class Bingo extends JavaPlugin implements Listener {
     public static int count = 1501;
@@ -707,6 +709,28 @@ public class Bingo extends JavaPlugin implements Listener {
             }
         },20L);
     }
+
+    public void finalWinner(){
+        if (gameNum == 4){
+            String[] top3 = LobbySystem.getTop3();
+            serverBroadcast("");
+            serverBroadcast("");
+            serverBroadcast("");
+            serverBroadcast("");
+            serverBroadcast(ChatColor.GOLD + "|---------------------------------------|");
+            serverBroadcast(ChatColor.GOLD + "| Congratulations to the Top 3 players! |");
+            serverBroadcast(ChatColor.GOLD + "|---------------------------------------|");
+            serverBroadcast("");
+            serverBroadcast(ChatColor.GOLD + "The 1st Place Winner: " + top3[0]);
+            serverBroadcast(ChatColor.GOLD + "Second Place: " + top3[1]);
+            serverBroadcast(ChatColor.GOLD + "Third Place: " + top3[2]);
+            serverBroadcast("");
+            serverBroadcast(ChatColor.GOLD + "Thank you everyone for playing!");
+            serverBroadcast(ChatColor.GOLD + "See you at the next event!");
+            
+        }
+    }
+
     public void onGameFinish() {
         broadcast(CustomFiles.duration.replace("{time}", Tools.formatDuration(this.startTime, Calendar.getInstance(), true)));
         for (Map.Entry<String, BingoPlayer> entry : this.allPlayers.entrySet()) {
@@ -728,6 +752,7 @@ public class Bingo extends JavaPlugin implements Listener {
             }
         },60L);
         count = 1501;
+        finalWinner();
     }
 
     public boolean CheckWhiteListedWorld(Player p) {

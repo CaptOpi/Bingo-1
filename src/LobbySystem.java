@@ -21,6 +21,7 @@ public class LobbySystem {
     private static Scoreboard board;
     private static BukkitTask Counter;
 
+
     public static void CountDown() {
         if (Counter != null)
             return;
@@ -54,6 +55,12 @@ public class LobbySystem {
 
     public static void AnnounceReminder() {
         Bingo.plugin.serverBroadcast(CustomFiles.almost_starting.replace("{time}", String.valueOf(CountDownTime)));
+    }
+    public static String getCurrentLeader() {
+        HashMap<String, Integer> h = LobbySystem.manualPush(BingoPlayer.getPlayers());
+        HashMap<String, Integer> sorted = LobbySystem.sortByValue(h);
+        Object[] keys = LobbySystem.getKey(sorted);
+        return (keys[keys.length - 1]).toString();
     }
     public static void manualScoreboard() {
         ScoreboardManager manager = Bukkit.getScoreboardManager();

@@ -6,11 +6,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -141,6 +143,19 @@ public class BingoListener implements Listener {
                 e.setCancelled(true);
             if (e.getMainHandItem().equals(Bingo.teamChest) || e.getOffHandItem().equals(Bingo.teamChest))
                 e.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onFoodLevelChange(FoodLevelChangeEvent event){
+        if (this.plugin.allPlayers.containsKey(event.getEntity().getName())) {
+            Player player = (Player)event.getEntity();
+ 
+            int oldFoodLevel = player.getFoodLevel();
+            int newFoodLevel = event.getFoodLevel();
+            if(oldFoodLevel > newFoodLevel) {
+                player.setFoodLevel(20);
+            }
         }
     }
 

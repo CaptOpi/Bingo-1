@@ -362,6 +362,14 @@ public class Bingo extends JavaPlugin implements Listener {
             }
             return String.valueOf(prefix) + CustomFiles.no_permission;
         }
+        if (cmd.equals("end")) {
+            if (s.hasPermission("bingo.admin")) {
+                onGameFinish();
+            }else{
+                return String.valueOf(prefix) + CustomFiles.no_permission;
+            }
+        }
+        
         if (cmd.equals("see")) {
             if (!seeotherscards)
                 return String.valueOf(prefix) + CustomFiles.option_disabled;
@@ -460,7 +468,9 @@ public class Bingo extends JavaPlugin implements Listener {
         thirdPlace = false;
         updateOnlineRegisteredPlayers();
         Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME");
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team add TEAMNAME @a");
+        for (Player p : registeredPlayersOnline) {
+            p.performCommand("team join TEAMNAME");
+        }
         if (gameNum != 4){
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "team modify TEAMNAME friendlyFire false");
 
@@ -742,6 +752,24 @@ public class Bingo extends JavaPlugin implements Listener {
             return true;
         return false;
     }
+
+    public void giveStartingItems(){
+        List<String> allLines;
+            try {
+                allLines = Files.readAllLines(Paths.get("plugins/Bingo/game" + Bingo.gameNum + ".txt"));
+                System.out.println("\n\n" + Bingo.registeredPlayersOnline.size() + "\n");
+                for (String line : allLines) {
+                    for (Player p : Bingo.registeredPlayersOnline){
+                        String uniqueCommand = line.replace("@a", p.getName());
+                        System.out.println(uniqueCommand);
+                        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), uniqueCommand);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
     public void countDown() {
         scheduler = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
@@ -750,6 +778,7 @@ public class Bingo extends JavaPlugin implements Listener {
                 switch (count) { // Yes I know this can be done in a different way, I just want it to be finished
                     case 1500:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "You Have 25 Minutes To Finish Your Board!");
+                        giveStartingItems();
                         break;
                     case 900:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "There is 15 Minutes Remaining!");
@@ -818,7 +847,6 @@ public class Bingo extends JavaPlugin implements Listener {
         p.setGameMode(GameMode.SURVIVAL);
         p.setFoodLevel(20);
         p.setHealth(20);
-        p.setSaturation(99999);
         if (ply.getGameMode().name().equalsIgnoreCase("survival")) {
             if (!CheckWhiteListedWorld(p))
                 return String.valueOf(prefix) + CustomFiles.wrong_world;

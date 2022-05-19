@@ -40,10 +40,10 @@ public class LobbySystem {
                             CustomFiles.scoreConfigSave();
                         }
                     }
-                    LobbySystem.StartRound();
                     LobbySystem.Counter.cancel();
                     LobbySystem.Counter = null;
                     LobbySystem.CountDownTime = Bingo.countDownTimeSet;
+                    LobbySystem.StartRound();
                 }
             }
         }, 0L, 20L);
@@ -205,26 +205,13 @@ public class LobbySystem {
             Block block = spawn.getWorld().getHighestBlockAt(teleport);
             teleport.setY(block.getY());
             ply.teleport(teleport);
+            
             Bingo.gameStarted = true;
             ply.updateInventory();
             if (!Bingo.clearInv)
                 ply.sendMessage(String.valueOf(Bingo.prefix) + CustomFiles.replaced_item);
             (Bingo.plugin.getBingoPlayer(ply)).inLobby = false;
             ply.sendMessage(String.valueOf(Bingo.prefix) + CustomFiles.has_started);
-            List<String> allLines;
-                try {
-                    allLines = Files.readAllLines(Paths.get("plugins/Bingo/game" + Bingo.gameNum + ".txt"));
-                    for (String line : allLines) {
-                        for (Player p : Bingo.registeredPlayersOnline){
-                            String uniqueCommand = line.replace("@a", p.getName());
-                            System.out.println(uniqueCommand);
-                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), uniqueCommand);
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            
             
         }
         Bingo.plugin.countDown();

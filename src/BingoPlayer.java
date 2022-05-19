@@ -57,7 +57,7 @@ public class BingoPlayer {
             p.getInventory().setItem(7, Bingo.teamChest);
         }
         plugin.serverBroadcast(CustomFiles.joined_game.replace("{player}", p.getName()));
-        p.teleport(Bingo.spawn);
+        //p.teleport(Bingo.spawn);
         CustomFiles.saveToLog(CustomFiles.joined_game.replace("{player}", p.getName()));
         if (Bingo.usingLobby) {
             this.inLobby = true;

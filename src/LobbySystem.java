@@ -83,12 +83,12 @@ public class LobbySystem {
         score3.setScore(h.get(keys[keys.length - 4].toString()));
         Score score4 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 5].toString());
         score4.setScore(h.get(keys[keys.length - 5].toString()));
-        /*Score score5 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 6].toString());
+        Score score5 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 6].toString());
         score5.setScore(h.get(keys[keys.length - 6].toString()));
         Score score6 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 7].toString());
         score6.setScore(h.get(keys[keys.length - 7].toString()));
         Score score7 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 8].toString());
-        score7.setScore(h.get(keys[keys.length - 8].toString()));*/
+        score7.setScore(h.get(keys[keys.length - 8].toString()));
         for (Map.Entry<String, BingoPlayer> entry : Bingo.allPlayers.entrySet()) {
             Player ply = ((BingoPlayer) entry.getValue()).getPlayer();
             ply.setScoreboard(board);

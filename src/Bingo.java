@@ -721,9 +721,9 @@ public class Bingo extends JavaPlugin implements Listener {
             serverBroadcast(ChatColor.GOLD + "| Congratulations to the Top 3 players! |");
             serverBroadcast(ChatColor.GOLD + "|---------------------------------------|");
             serverBroadcast("");
-            serverBroadcast(ChatColor.GOLD + "The 1st Place Winner: " + top3[0] + " " + CustomFiles.getScoreConfig().getInt(top3[0]));
-            serverBroadcast(ChatColor.GOLD + "Second Place: " + top3[1] + " " + CustomFiles.getScoreConfig().getInt(top3[1]));
-            serverBroadcast(ChatColor.GOLD + "Third Place: " + top3[2] + " " + CustomFiles.getScoreConfig().getInt(top3[2]));
+            serverBroadcast(ChatColor.GOLD + "The 1st Place Winner: " + top3[0] + " with " + CustomFiles.getScoreConfig().getInt(top3[0]) + " points!");
+            serverBroadcast(ChatColor.GOLD + "Second Place: " + top3[1] + " with " + CustomFiles.getScoreConfig().getInt(top3[1]) + " points!");
+            serverBroadcast(ChatColor.GOLD + "Third Place: " + top3[2] + " with " + CustomFiles.getScoreConfig().getInt(top3[2]) + " points!");
             serverBroadcast("");
             serverBroadcast(ChatColor.GOLD + "Thank you everyone for playing!");
             serverBroadcast(ChatColor.GOLD + "See you at the next event!");

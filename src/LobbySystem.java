@@ -212,12 +212,12 @@ public class LobbySystem {
                 ply.sendMessage(String.valueOf(Bingo.prefix) + CustomFiles.replaced_item);
             (Bingo.plugin.getBingoPlayer(ply)).inLobby = false;
             ply.sendMessage(String.valueOf(Bingo.prefix) + CustomFiles.has_started);
-            if (Bingo.gameNum == 1){
+            List<String> allLines;
                 try {
-                    List<String> allLines = Files.readAllLines(Paths.get("plugins/Bingo/game1.txt"));
+                    allLines = Files.readAllLines(Paths.get("plugins/Bingo/game" + Bingo.gameNum + ".txt"));
                     for (String line : allLines) {
-                        for (String playerName : Bingo.registeredPlayerNames){
-                            String uniqueCommand = line.replace("@a", playerName);
+                        for (Player p : Bingo.registeredPlayersOnline){
+                            String uniqueCommand = line.replace("@a", p.getName());
                             System.out.println(uniqueCommand);
                             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), uniqueCommand);
                         }
@@ -225,46 +225,8 @@ public class LobbySystem {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else if (Bingo.gameNum == 2){
-                try {
-                    List<String> allLines = Files.readAllLines(Paths.get("plugins/Bingo/game2.txt"));
-                    for (String line : allLines) {
-                        for (String playerName : Bingo.registeredPlayerNames){
-                            String uniqueCommand = line.replace("@a", playerName);
-                            System.out.println(uniqueCommand);
-                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), uniqueCommand);
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else if(Bingo.gameNum == 3){
-                try {
-                    List<String> allLines = Files.readAllLines(Paths.get("plugins/Bingo/game3.txt"));
-                    for (String line : allLines) {
-                        for (String playerName : Bingo.registeredPlayerNames){
-                            String uniqueCommand = line.replace("@a", playerName);
-                            System.out.println(uniqueCommand);
-                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), uniqueCommand);
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }else if (Bingo.gameNum == 4){
-                try {
-                    List<String> allLines = Files.readAllLines(Paths.get("plugins/Bingo/game4.txt"));
-                    for (String line : allLines) {
-                        for (String playerName : Bingo.registeredPlayerNames){
-                            String uniqueCommand = line.replace("@a", playerName);
-                            System.out.println(uniqueCommand);
-                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), uniqueCommand);
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            
+            
         }
         Bingo.plugin.countDown();
     }

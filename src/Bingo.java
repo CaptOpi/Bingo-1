@@ -405,7 +405,8 @@ public class Bingo extends JavaPlugin implements Listener {
         }
         if (cmd.equals("join")) {
             if (s instanceof Player) {
-                CommandJoin((Player)s);
+                if ( registeredPlayerNames.contains(((Player)s).getName()) )
+                    CommandJoin((Player)s);
                 return null;
             }
             return String.valueOf(prefix) + CustomFiles.non_player_error;

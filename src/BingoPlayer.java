@@ -107,6 +107,7 @@ public class BingoPlayer {
             }
         if (checkBingo()) {
             this.plugin.getPlayersFinished().add(this.player);
+            this.player.getInventory().clear();
             this.plugin.broadcast(CustomFiles.bingo.replace("{player}", this.name));
             this.plugin.handleWinner(this.player);
         }

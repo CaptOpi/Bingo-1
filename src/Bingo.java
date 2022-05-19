@@ -662,26 +662,30 @@ public class Bingo extends JavaPlugin implements Listener {
             return;
         }
         if(!firstPlace) {
-            p.sendMessage(String.valueOf(prefix) + ChatColor.GOLD + "Congratulations, you were victorious!");
-            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished in first place!");
+            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + " has finished in first place!");
             int previous = CustomFiles.getScoreConfig().getInt(p.getName());
             CustomFiles.getScoreConfig().set(p.getName(), previous + 5);
             firstPlace = true;
         } else if (!secondPlace && firstPlace) {
-            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished in second place!");
+            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + " has finished in second place!");
             int previous = CustomFiles.getScoreConfig().getInt(p.getName());
             CustomFiles.getScoreConfig().set(p.getName(), previous + 3);
             secondPlace = true;
         } else if (!thirdPlace && secondPlace) {
-            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished in third place!");
+            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + " has finished in third place!");
             int previous = CustomFiles.getScoreConfig().getInt(p.getName());
             CustomFiles.getScoreConfig().set(p.getName(), previous + 2);
             thirdPlace = true;
         } else {
-            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + "has finished their board!");
+            Bingo.plugin.broadcast(p.getDisplayName() + ChatColor.GOLD + " has finished their board!");
         }
         p.teleport(parkourLocation);
-        p.getInventory().clear();
+        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+            @Override
+            public void run() {
+                p.getInventory().clear();
+            }
+        },20L);
     }
     public void onGameFinish() {
         broadcast(CustomFiles.duration.replace("{time}", Tools.formatDuration(this.startTime, Calendar.getInstance(), true)));

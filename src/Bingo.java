@@ -727,7 +727,10 @@ public class Bingo extends JavaPlugin implements Listener {
             serverBroadcast("");
             serverBroadcast(ChatColor.GOLD + "Thank you everyone for playing!");
             serverBroadcast(ChatColor.GOLD + "See you at the next event!");
-            
+            Location winnerCell = new Location(spawnWorld,(getConfig().getDouble("winner-location-x")),(getConfig().getDouble("winner-location-y")),(getConfig().getDouble("winner-location-z")));
+            String playerName = top3[0];
+            Player p = Bukkit.getPlayer(playerName);
+            p.teleport(winnerCell);
         }
     }
 

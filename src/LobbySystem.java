@@ -50,9 +50,6 @@ public class LobbySystem {
         }, 0L, 20L);
         Bingo.plugin.log(String.valueOf(Counter));
     }
-
-
-
     public static void AnnounceReminder() {
         Bingo.plugin.serverBroadcast(CustomFiles.almost_starting.replace("{time}", String.valueOf(CountDownTime)));
     }

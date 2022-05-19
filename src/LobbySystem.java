@@ -67,13 +67,13 @@ public class LobbySystem {
 
         Score score = objective.getScore(ChatColor.GOLD + keys[keys.length - 1].toString());
         score.setScore(h.get(keys[keys.length - 1].toString()));
-        /*Score score1 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 2].toString());
+        Score score1 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 2].toString());
         score1.setScore(h.get(keys[keys.length - 2].toString()));
         Score score2 = objective.getScore(ChatColor.GOLD + keys[keys.length - 3].toString());
         score2.setScore(h.get(keys[keys.length - 3].toString()));
-        Score score3 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 4].toString());
-        score3.setScore(h.get(keys[keys.length - 4].toString()));
-        Score score4 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 5].toString());
+        /*Score score3 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 4].toString());
+        score3.setScore(h.get(keys[keys.length - 4].toString()));*/
+        /*Score score4 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 5].toString());
         score4.setScore(h.get(keys[keys.length - 5].toString()));
         Score score5 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 6].toString());
         score5.setScore(h.get(keys[keys.length - 6].toString()));

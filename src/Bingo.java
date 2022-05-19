@@ -689,7 +689,7 @@ public class Bingo extends JavaPlugin implements Listener {
             Player ply = ((BingoPlayer)entry.getValue()).getPlayer();
             if (clearInv)
                 ply.getInventory().clear();
-            ply.teleport(spawn);
+            ply.teleport(parkourLocation);
         }
         gameIsSetup = false;
         gameStarted = false;
@@ -808,9 +808,10 @@ public class Bingo extends JavaPlugin implements Listener {
         if (!gameIsSetup)
             return String.valueOf(prefix) + CustomFiles.no_game_found;
         Player ply = p;
-        p.setFoodLevel(20);
-        p.setSaturation(99999);
         p.setGameMode(GameMode.SURVIVAL);
+        p.setFoodLevel(20);
+        p.setHealth(20);
+        p.setSaturation(99999);
         if (ply.getGameMode().name().equalsIgnoreCase("survival")) {
             if (!CheckWhiteListedWorld(p))
                 return String.valueOf(prefix) + CustomFiles.wrong_world;

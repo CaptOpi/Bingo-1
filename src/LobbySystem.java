@@ -54,10 +54,10 @@ public class LobbySystem {
         Bingo.plugin.serverBroadcast(CustomFiles.almost_starting.replace("{time}", String.valueOf(CountDownTime)));
     }
     public static String[] getTop3() {
-        HashMap<String, Integer> h = LobbySystem.manualPush(BingoPlayer.getPlayers());
+        HashMap<String, Integer> h = LobbySystem.pushToMap(BingoPlayer.getPlayers());
         HashMap<String, Integer> sorted = LobbySystem.sortByValue(h);
         Object[] keys = LobbySystem.getKey(sorted);
-        String [] top3 = new String[3];
+        String[] top3 = new String[3];
         top3[0] = (keys[keys.length - 1]).toString();
         top3[1] = (keys[keys.length - 2]).toString();
         top3[2] = (keys[keys.length - 3]).toString();
@@ -109,10 +109,10 @@ public class LobbySystem {
         score1.setScore(h.get(keys[keys.length - 2].toString()));
         Score score2 = objective.getScore(ChatColor.GOLD + keys[keys.length - 3].toString());
         score2.setScore(h.get(keys[keys.length - 3].toString()));
-        /*Score score3 = objective.getScore(ChatColor.GOLD + keys[keys.length - 4].toString());
-        score3.setScore(h.get(keys[keys.length - 4].toString()));*/
-        /*Score score4 = objective.getScore(ChatColor.GOLD + keys[keys.length - 5].toString());
-        score4.setScore(h.get(keys[keys.length - 5].toString()));*/
+        Score score3 = objective.getScore(ChatColor.GOLD + keys[keys.length - 4].toString());
+        score3.setScore(h.get(keys[keys.length - 4].toString()));
+        Score score4 = objective.getScore(ChatColor.GOLD + keys[keys.length - 5].toString());
+        score4.setScore(h.get(keys[keys.length - 5].toString()));
         /*Score score5 = objective.getScore(ChatColor.GOLD + keys[keys.length - 6].toString());
         score5.setScore(h.get(keys[keys.length - 6].toString()));
         Score score6 = objective.getScore(ChatColor.GOLD + keys[keys.length - 7].toString());

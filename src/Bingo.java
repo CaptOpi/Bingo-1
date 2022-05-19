@@ -43,7 +43,7 @@ import net.minecraft.server.v1_14_R1.ChatModifier;
 
 
 public class Bingo extends JavaPlugin implements Listener {
-    public static int count = 10;
+    public static int count = 1501;
     private Server server;
     private Scoreboard board;
     public static ArrayList<ItemStack> bingoItems;

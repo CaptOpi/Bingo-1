@@ -154,7 +154,7 @@ public class Bingo extends JavaPlugin implements Listener {
         gameIsSetup = false;
         boardPosition = new int[] {
                 12,13,14,21,22,23,30,31,32 };
-        prefix = ChatColor.DARK_AQUA + "[" + ChatColor.GOLD + "Bingo" + ChatColor.DARK_AQUA + "] " + ChatColor.RESET;
+        prefix = ChatColor.GOLD + "[" + ChatColor.RED + "REEBO" + ChatColor.GOLD + "] " + ChatColor.RESET;
         expectedConfigVersion = "1.4";
         lastUpdated = "28/OCT/2019";
     }
@@ -354,6 +354,7 @@ public class Bingo extends JavaPlugin implements Listener {
                         return String.valueOf(prefix) + CustomFiles.not_whitelisted_world;
                     startGame((Player)s, gameNum);
                     serverBroadcast(CustomFiles.game_has_started);
+                    
                     if (clearInv)
                         serverBroadcast(CustomFiles.inventory_will_clear);
                     return String.valueOf(prefix) + CustomFiles.game_succesfully_started;
@@ -365,6 +366,9 @@ public class Bingo extends JavaPlugin implements Listener {
         if (cmd.equals("end")) {
             if (s.hasPermission("bingo.admin")) {
                 onGameFinish();
+                for (Player p : registeredPlayersOnline){
+                    p.getInventory().clear();
+                }
             }else{
                 return String.valueOf(prefix) + CustomFiles.no_permission;
             }
@@ -431,6 +435,13 @@ public class Bingo extends JavaPlugin implements Listener {
             }
         }
         return String.valueOf(prefix) + CustomFiles.unknown_command;
+    }
+
+    public void pvpEnabledMessage(){
+        if(gameNum == 4){
+            String lastRoundmsg = "PVP is enabled on this final round. Good luck.";
+            Bingo.plugin.broadcast(prefix + ChatColor.RED + lastRoundmsg);
+        }
     }
 
     public void updateOnlineRegisteredPlayers(){
@@ -774,6 +785,7 @@ public class Bingo extends JavaPlugin implements Listener {
                 count--;
                 switch (count) { // Yes I know this can be done in a different way, I just want it to be finished
                     case 1500:
+                        pvpEnabledMessage();
                         Bingo.plugin.broadcast(ChatColor.AQUA + "You Have 25 Minutes To Finish Your Board!");
                         giveStartingItems();
                         break;

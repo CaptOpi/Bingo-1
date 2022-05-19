@@ -303,7 +303,6 @@ public class CustomFiles {
             createMessagesConfig();
             return;
         }
-        Bingo.prefix = ChatColor.translateAlternateColorCodes('&', getMessagesConfig().getString("bingo_prefix"));
         version_str = ChatColor.translateAlternateColorCodes('&', getMessagesConfig().getString("version_str"));
         helpmsg = getMessagesConfig().getStringList("help");
         adminhelpmsg = getMessagesConfig().getStringList("adminhelp");

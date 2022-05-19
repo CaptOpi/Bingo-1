@@ -43,7 +43,7 @@ import net.minecraft.server.v1_14_R1.ChatModifier;
 
 
 public class Bingo extends JavaPlugin implements Listener {
-    public static int count = 1501;
+    public static int count = 10;
     private Server server;
     private Scoreboard board;
     public static ArrayList<ItemStack> bingoItems;
@@ -721,9 +721,9 @@ public class Bingo extends JavaPlugin implements Listener {
             serverBroadcast(ChatColor.GOLD + "| Congratulations to the Top 3 players! |");
             serverBroadcast(ChatColor.GOLD + "|---------------------------------------|");
             serverBroadcast("");
-            serverBroadcast(ChatColor.GOLD + "The 1st Place Winner: " + top3[0]);
-            serverBroadcast(ChatColor.GOLD + "Second Place: " + top3[1]);
-            serverBroadcast(ChatColor.GOLD + "Third Place: " + top3[2]);
+            serverBroadcast(ChatColor.GOLD + "The 1st Place Winner: " + top3[0] + " " + CustomFiles.getScoreConfig().getInt(top3[0]));
+            serverBroadcast(ChatColor.GOLD + "Second Place: " + top3[1] + " " + CustomFiles.getScoreConfig().getInt(top3[1]));
+            serverBroadcast(ChatColor.GOLD + "Third Place: " + top3[2] + " " + CustomFiles.getScoreConfig().getInt(top3[2]));
             serverBroadcast("");
             serverBroadcast(ChatColor.GOLD + "Thank you everyone for playing!");
             serverBroadcast(ChatColor.GOLD + "See you at the next event!");

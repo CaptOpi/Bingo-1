@@ -54,10 +54,10 @@ public class LobbySystem {
         Bingo.plugin.serverBroadcast(CustomFiles.almost_starting.replace("{time}", String.valueOf(CountDownTime)));
     }
     public static String[] getTop3() {
-        HashMap<String, Integer> h = LobbySystem.manualPush(BingoPlayer.getPlayers());
+        HashMap<String, Integer> h = LobbySystem.pushToMap(BingoPlayer.getPlayers());
         HashMap<String, Integer> sorted = LobbySystem.sortByValue(h);
         Object[] keys = LobbySystem.getKey(sorted);
-        String [] top3 = new String[3];
+        String[] top3 = new String[3];
         top3[0] = (keys[keys.length - 1]).toString();
         top3[1] = (keys[keys.length - 2]).toString();
         top3[2] = (keys[keys.length - 3]).toString();

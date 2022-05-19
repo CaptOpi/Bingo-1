@@ -11,13 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Server;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -310,6 +304,12 @@ public class Bingo extends JavaPlugin implements Listener {
         if (response != null)
             sender.sendMessage(response);
         return true;
+    }
+    public static void playSound(ArrayList<String> p) {
+        for(int i = 0; i < p.size();i++) {
+            Player e = Bukkit.getPlayer(p.get(i));
+            e.playSound(e.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL,2,1);
+        }
     }
 
     public String commandProcessor(String[] args, CommandSender s) {
@@ -819,55 +819,72 @@ public class Bingo extends JavaPlugin implements Listener {
                         break;
                     case 900:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "There is 15 Minutes Remaining!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 600:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "There is 10 Minutes Remaining!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 300:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "There is 5 Minutes Remaining!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 120:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "There is 2 Minutes Remaining!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 60:
                         LobbySystem.seconds = true;
                         Bingo.plugin.broadcast(ChatColor.AQUA + "There is 1 Minute Remaining!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 30:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "There is 30 Seconds Remaining!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 15:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "There is 15 Seconds Remaining!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 10:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "There is 10 Seconds Remaining!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 9:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "9!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 8:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "8!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 7:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "7!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 6:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "6!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 5:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "5!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 4:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "4!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 3:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "3!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 2:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "2!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 1:
                         Bingo.plugin.broadcast(ChatColor.AQUA + "1!");
+                        playSound(BingoPlayer.getPlayers());
                         break;
                     case 0:
                         plugin.getServer().getScheduler().cancelTasks(plugin);

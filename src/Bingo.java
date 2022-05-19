@@ -433,9 +433,11 @@ public class Bingo extends JavaPlugin implements Listener {
             while (scan.hasNextLine()){
                 String data = scan.nextLine();
                 Player p = Bukkit.getServer().getPlayerExact(data);
-                if (p != null && !registeredPlayersOnline.contains(p)){
+                if (p != null){
+                    if (!registeredPlayersOnline.contains(p)){
                     registeredPlayersOnline.add(p);
                     System.out.println( String.format("Added %s to the online registered player list.", data) );
+                    }
                 }else {
                     registeredPlayersOnline.remove(p);
                     System.out.println( String.format("Removed %s from the online registered player list.", data) );

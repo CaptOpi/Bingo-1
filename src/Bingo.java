@@ -610,9 +610,6 @@ public class Bingo extends JavaPlugin implements Listener {
         is.setItemMeta(im);
         starItem = is;
     }
-    public void onPlayerFinish(BingoPlayer p) {
-
-    }
     public void onPlayerJoin(Player p) {
         p.getInventory().clear();
         if (this.entryFeeItem != null && this.entryFeeItemQuantity > 0) {

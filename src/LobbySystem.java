@@ -64,7 +64,6 @@ public class LobbySystem {
         HashMap<String, Integer> h = LobbySystem.manualPush(BingoPlayer.getPlayers());
         HashMap<String, Integer> sorted = LobbySystem.sortByValue(h);
         Object[] keys = LobbySystem.getKey(sorted);
-
         Score score = objective.getScore(ChatColor.GOLD + keys[keys.length - 1].toString());
         score.setScore(h.get(keys[keys.length - 1].toString()));
         Score score1 = objective.getScore(ChatColor.GOLD +  keys[keys.length - 2].toString());

@@ -508,19 +508,19 @@ public class Bingo extends JavaPlugin implements Listener {
         List<String> configintlist;
         if (gameNum == 1){
             configintlist = CustomFiles.getItemsConfig1().getStringList("items");
-            spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-1", gameNum )),getConfig().getDouble(String.format("lobby-location-y-1", gameNum )),getConfig().getDouble(String.format("lobby-location-z-1", gameNum )));
+            spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-1")),getConfig().getDouble(String.format("lobby-location-y-1")),getConfig().getDouble(String.format("lobby-location-z-1")));
 
         }else if (gameNum == 2){
             configintlist = CustomFiles.getItemsConfig2().getStringList("items");
-            spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-2", gameNum )),getConfig().getDouble(String.format("lobby-location-y-2", gameNum )),getConfig().getDouble(String.format("lobby-location-z-2", gameNum )));
+            spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-2")),getConfig().getDouble(String.format("lobby-location-y-2")),getConfig().getDouble(String.format("lobby-location-z-2")));
 
         }else if (gameNum == 3){
             configintlist = CustomFiles.getItemsConfig3().getStringList("items");
-            spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-3", gameNum )),getConfig().getDouble(String.format("lobby-location-y-3", gameNum )),getConfig().getDouble(String.format("lobby-location-z-3", gameNum )));
+            spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-3")),getConfig().getDouble(String.format("lobby-location-y-3")),getConfig().getDouble(String.format("lobby-location-z-3")));
 
         }else {
             configintlist = CustomFiles.getItemsConfig4().getStringList("items");
-            spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-4", gameNum )),getConfig().getDouble(String.format("lobby-location-y-4", gameNum )),getConfig().getDouble(String.format("lobby-location-z-4", gameNum )));
+            spawn = new Location(spawnWorld, getConfig().getDouble(String.format("lobby-location-x-4")),getConfig().getDouble(String.format("lobby-location-y-4")),getConfig().getDouble(String.format("lobby-location-z-4")));
 
         }
         spawn.setWorld(spawnWorld);
